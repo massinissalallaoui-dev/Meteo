@@ -1,0 +1,52 @@
+<div class="container mt-5" *ngIf="meteo?.cod == 200">
+
+  <!-- Card météo principale -->
+  <div class="card text-center shadow-lg mx-auto" style="max-width: 500px; border-radius: 20px;">
+
+    <!-- Header ville + date -->
+    <div class="card-header bg-primary text-white fw-bold">
+      {{ meteo.name }}
+      <br>
+      <small>{{ meteo.dt * 1000 | date : 'EEEE d MMMM HH:mm' }}</small>
+    </div>
+
+    <!-- Température et icône -->
+    <div class="card-body">
+      <i [class]="'wi wi-owm-day-' + meteo.weather[0].id" style="font-size:4rem;"></i>
+      <h1 class="display-4 fw-bold mb-0">
+        {{ meteo.main.temp }}<i class="wi wi-celsius"></i>
+      </h1>
+      <p class="text-capitalize mt-1">{{ meteo.weather[0].description }}</p>
+    </div>
+
+    <!-- Infos météo détaillées -->
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span><i class="wi wi-cloud"></i> Nuages</span>
+        <strong>{{ meteo.clouds.all }}%</strong>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span><i class="wi wi-humidity"></i> Humidité</span>
+        <strong>{{ meteo.main.humidity }}%</strong>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span><i class="wi wi-strong-wind"></i> Vent</span>
+        <strong>{{ meteo.wind.speed }} km/h</strong>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span><i class="wi wi-sunrise"></i> Lever du soleil</span>
+        <strong>{{ meteo.sys.sunrise * 1000 | date:'H:mm' }}</strong>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span><i class="wi wi-sunset"></i> Coucher du soleil</span>
+        <strong>{{ meteo.sys.sunset * 1000 | date:'H:mm' }}</strong>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+<!-- Message erreur si la ville est introuvable -->
+<div class="alert alert-danger text-center mt-4" *ngIf="meteo?.cod != 200">
+  ❌ {{ meteo?.message }}
+</div>
